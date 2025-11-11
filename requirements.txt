@@ -1,0 +1,5 @@
+# Core dependencies for database, environment config, and data visualization
+psycopg2==2.9.11
+python-dotenv==1.1.0
+pandas==2.2.3
+matplotlib==3.9.2
