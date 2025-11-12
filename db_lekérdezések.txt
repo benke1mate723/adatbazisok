@@ -1,0 +1,56 @@
+SELECT 
+    p.panel_szam,
+    ROUND(AVG(m.ertek_num), 2) AS atlag_ertek,
+    ROUND(MIN(m.ertek_num), 2) AS minimum,
+    ROUND(MAX(m.ertek_num), 2) AS maximum,
+    COUNT(*) AS meres_db
+FROM public.meres m
+JOIN public.panel p ON m.panel_id = p.panel_id
+GROUP BY p.panel_szam
+ORDER BY p.panel_szam;
+
+
+SELECT
+  p.panel_szam,
+  ROUND(AVG(m.ertek_num), 2) AS atlag_ertek
+FROM public.meres m
+JOIN public.panel p ON p.panel_id = m.panel_id
+GROUP BY p.panel_szam
+HAVING AVG(m.ertek_num) > (SELECT AVG(ertek_num) FROM public.meres)
+ORDER BY p.panel_szam;
+
+
+DROP TABLE IF EXISTS public.panel_atlagok;
+CREATE TABLE public.panel_atlagok AS
+SELECT
+    p.panel_szam,
+    ROUND(AVG(m.ertek_num), 2) AS atlag_ertek,
+    ROUND(MIN(m.ertek_num), 2) AS minimum,
+    ROUND(MAX(m.ertek_num), 2) AS maximum,
+    COUNT(*) AS meres_db
+FROM public.meres m
+JOIN public.panel p ON m.panel_id = p.panel_id
+GROUP BY p.panel_szam
+ORDER BY p.panel_szam;
+
+
+(
+  SELECT 
+      'minimum' AS tipus,
+      p.panel_szam,
+      ROUND(MIN(m.ertek_num), 2) AS ertek
+  FROM public.meres m
+  JOIN public.panel p ON p.panel_id = m.panel_id
+  GROUP BY p.panel_szam
+)
+UNION
+(
+  SELECT 
+      'maximum' AS tipus,
+      p.panel_szam,
+      ROUND(MAX(m.ertek_num), 2) AS ertek
+  FROM public.meres m
+  JOIN public.panel p ON p.panel_id = m.panel_id
+  GROUP BY p.panel_szam
+)
+ORDER BY panel_szam, tipus;
