@@ -20,7 +20,7 @@ PGHOST = os.getenv("PGHOST", "localhost")
 PGPORT = int(os.getenv("PGPORT", "5432"))
 PGDB   = os.getenv("PGDATABASE", "beadando")
 PGUSER = os.getenv("PGUSER", "postgres")
-PGPASS = os.getenv("PGPASSWORD", "Traktor1t")
+PGPASS = os.getenv("PGPASSWORD", "")
 
 SCHEMA = "tryout4"
 def T(name: str) -> str:
